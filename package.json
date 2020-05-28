@@ -1,0 +1,29 @@
+{
+  "name": "uet-getnews",
+  "version": "1.0.0",
+  "description": "This is the back-end server for automate bot of \"UET - Get News\" page on Facebook.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phonghoang2k/uet-getnews.git"
+  },
+  "author": "Hoang Trung Phong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phonghoang2k/uet-getnews/issues"
+  },
+  "homepage": "https://github.com/phonghoang2k/uet-getnews#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-x-hub": "^1.0.4",
+    "mongoose": "^5.9.16",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.4"
+  }
+}
