@@ -6,11 +6,11 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const axios = require("axios");
 const xhub = require("express-x-hub");
 
 //part
 const route = require("./src/routes/route");
+const facebook = require("./src/controllers/platform/facebook");
 
 //custom
 const config = require("./custom/config");
@@ -31,6 +31,11 @@ conn.once("open", function () {
     console.log("connected mongodb");
 });
 
+facebook.setupFacebookAPI(config.FB_PAGE_ACCESS_TOKEN);
+
+if (config.FB_APP_SECRET != '') {
+    app.use(xhub({ algorithm: 'sha1', secret: config.FB_APP_SECRET }));
+}
 app.use(logger("dev"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ limit: "5mb", extended: false }));
