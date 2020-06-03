@@ -11,6 +11,10 @@ module.exports.create = async (id, firstName, lastName) => {
     await subscriber.save();
 };
 
+module.exports.read = async () => {
+    return await Subscriber.find({});
+};
+
 module.exports.delete = async (id) => {
     Subscriber.deleteMany({ id: id }, (err) => {
         if (err) {

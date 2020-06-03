@@ -7,11 +7,11 @@ const news = require("./core/news");
 const { handleSuccess, handleError } = require("../helpers/response");
 
 module.exports.verify = async (req, res, next) => {
-    if (req.query["hub.verify_token"] === config.FB_PAGE_VERIFY_TOKEN) {
-        res.send(req.query["hub.challenge"]);
-    } else {
-        res.send("Error, wrong token");
-    }
+    // if (req.query["hub.verify_token"] === config.FB_PAGE_VERIFY_TOKEN) {
+    //     res.send(req.query["hub.challenge"]);
+    // } else {
+    //     res.send("Error, wrong token");
+    // }
 
     // var a = {
     //     image_url:
@@ -22,17 +22,28 @@ module.exports.verify = async (req, res, next) => {
     //         "https://uet.vnu.edu.vn/dang-ky-tham-gia-chuong-trinh-hoc-bong-yamada-nam-hoc-2019-2020/",
     // };
 
-    // await facebook.sendNewsThumbnail(a, "3294845787206281");
-    // facebook.sendNewsDescription(a, "3294845787206281");
-    // handleSuccess(res, "", "Doneeee");
-
-    // news.create(
-    //     "Đăng ký tham gia chương trình học bổng Yamada, năm học 2019-2020",
-    //     "https://uet.vnu.edu.vn/wp-content/uploads/2017/10/THONG-BAO-HOC-BONG.jpg",
-    //     "https:// uet.vnu  .edu.vn/dang-  -tham-gia-chuong-trinh-hoc-bong-yamada-nam-hoc-2019-2020/"
-    // ).then((data) => {
-    //     handleSuccess(res, data);
+    // // var b = [];
+    // facebook.sendNewsThumbnail(a, "2658496570923308").then(() => {
+    //     facebook.sendNewsDescription(a, "2658496570923308");
     // });
+    // var a = await news.getRawData();
+    // var b = await news.getNews(a, "latest");
+    // console.log(b[0]);
+    // let a = await news.getStarted();
+
+    // news.create(a.title, a.url, a.url);
+    // subscribers.delete("18020998")
+
+    var a = await subscribers.read();
+    console.log(a);
+    // await facebook.sendMultipleNews(b, "3294845787206281");
+    // facebook.sendNewsThumbnail(a, "3294845787206281");
+    // facebook.sendNewsDescription(a, "3294845787206281");
+
+    // subscribers.create("180230998", "Phong", "Phong");
+
+    handleSuccess(res, "", "Doneeee");
+
     // var a = await news.delete();
     // handleSuccess(res, a);
 };
