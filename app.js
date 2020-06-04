@@ -11,6 +11,7 @@ const xhub = require("express-x-hub");
 //part
 const route = require("./src/routes/route");
 const facebook = require("./src/controllers/platform/facebook");
+const utils = require("./src/controllers/utils");
 
 //custom
 const config = require("./custom/config");
@@ -33,8 +34,8 @@ conn.once("open", function () {
 
 facebook.setupFacebookAPI(config.FB_PAGE_ACCESS_TOKEN);
 
-if (config.FB_APP_SECRET != '') {
-    app.use(xhub({ algorithm: 'sha1', secret: config.FB_APP_SECRET }));
+if (config.FB_APP_SECRET != "") {
+    app.use(xhub({ algorithm: "sha1", secret: config.FB_APP_SECRET }));
 }
 app.use(logger("dev"));
 app.use(express.json());
@@ -45,6 +46,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.use("/webhook", route);
+
+// auto update after 10 min
+utils.autoUpdateNews();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

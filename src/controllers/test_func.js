@@ -31,6 +31,7 @@ module.exports.verify = async (req, res, next) => {
     // console.log(b[0]);
     // let a = await news.getStarted();
 
+    // facebook.sendSubscribeButtons("3294845787206281", "", true, true);
     // news.create(a.title, a.url, a.url);
     // subscribers.delete("18020998")
 
@@ -42,8 +43,8 @@ module.exports.verify = async (req, res, next) => {
 
     // subscribers.create("180230998", "Phong", "Phong");
 
-    // var a = await news.delete();
-    handleSuccess(res, a);
+    // var a = await utils.broadcast();
+    handleSuccess(res, "");
 };
 
 module.exports.postData = async (req, res, next) => {

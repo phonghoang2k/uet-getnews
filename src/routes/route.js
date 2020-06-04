@@ -1,15 +1,13 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-const testfunc = require('../controllers/test_func');
-const main_controller = require('../controllers/main_controller');
+const testfunc = require("../controllers/test_func");
+const main_controller = require("../controllers/main_controller");
 
 /* GET facebook verification. */
-router.get('/', testfunc.verify);
+router.get("/", main_controller.verify);
 
 /* POST facebook data. */
-router.post('/', testfunc.postData);
-
-
+router.post("/", main_controller.postData);
 
 module.exports = router;

@@ -60,6 +60,97 @@ exports.setupFacebookAPI = (token) => {
     });
 };
 
+exports.sendSubscribeButtons = (
+    sender,
+    text,
+    showSubcribe = true,
+    showUnsubcribe = true
+) => {
+    var buttons = [];
+    if (showSubcribe) {
+        buttons.push({
+            type: "postback",
+            title: "Đăng ký",
+            payload: language.KEYWORD_SUBSCRIBE,
+        });
+    }
+    if (showUnsubcribe) {
+        buttons.push({
+            type: "postback",
+            title: "Hủy đăng ký",
+            payload: language.KEYWORD_UNSUBSCRIBE,
+        });
+    }
+    buttons.push({
+        type: "postback",
+        title: "Menu",
+        payload: language.KEYWORD_MENU,
+    });
+    sendFacebookAPI(sender, {
+        attachment: {
+            type: "template",
+            payload: {
+                template_type: "button",
+                text: text,
+                buttons: buttons,
+            },
+        },
+        quick_replies: this.quickButtons,
+    });
+};
+
+exports.sendMessageButtons = (
+    sender,
+    text,
+    showLatestNews,
+    showListLatestNews,
+    showSubcribeChannel,
+    showReportButton = false
+) => {
+    var buttons = [];
+    if (showLatestNews)
+        buttons.push({
+            type: "postback",
+            title: "Tin mới nhất",
+            payload: language.KEYWORD_LATEST,
+        });
+    if (showListLatestNews)
+        buttons.push({
+            type: "postback",
+            title: "8 tin mới nhất",
+            payload: language.KEYWORD_ALL,
+        });
+    else
+        buttons.push({
+            type: "web_url",
+            title: "Gửi phản hồi",
+            url: config.REPORT_LINK,
+        });
+    if (showReportButton)
+        buttons.push({
+            type: "web_url",
+            title: "Gửi phản hồi",
+            url: config.REPORT_LINK,
+        });
+    if (showSubcribeChannel)
+        buttons.push({
+            type: "postback",
+            title: "Đăng ký nhận tin",
+            payload: language.KEYWORD_SUBSCRIBE,
+        });
+    sendFacebookAPI(sender, {
+        attachment: {
+            type: "template",
+            payload: {
+                template_type: "button",
+                text: text,
+                buttons: buttons,
+            },
+        },
+        quick_replies: this.quickButtons,
+    });
+};
+
 exports.quickButtons = [
     {
         content_type: "text",
@@ -88,7 +179,8 @@ var sendFacebookAPI = (receiver, messageData) => {
             data: {
                 recipient: { id: receiver },
                 message: messageData,
-                messaging_type: "RESPONSE",
+                messaging_type: "MESSAGE_TAG",
+                tag: "CONFIRMED_EVENT_UPDATE",
             },
         })
             .then((response) => {
@@ -105,19 +197,6 @@ var sendFacebookAPI = (receiver, messageData) => {
 
 exports.sendFacebookAPI = sendFacebookAPI;
 
-exports.sendSeenIndicator = (receiver) => {
-    axios({
-        url: "https://graph.facebook.com/v7.0/me/messages",
-        params: { access_token: config.FB_PAGE_ACCESS_TOKEN },
-        method: "POST",
-        data: {
-            recipient: { id: receiver },
-            sender_action: "mark_seen",
-            messaging_type: "RESPONSE",
-        },
-    });
-};
-
 exports.sendNewsThumbnail = async (messageData, receiver) => {
     sendFacebookAPI(receiver, {
         attachment: {
@@ -126,6 +205,7 @@ exports.sendNewsThumbnail = async (messageData, receiver) => {
                 url: messageData.image_url,
             },
         },
+        quick_replies: this.quickButtons,
     });
 };
 
@@ -157,6 +237,7 @@ exports.sendMultipleNews = (messageData, receiver) => {
                 image_aspect_ratio: "square",
                 elements: messageData,
             },
+            quick_replies: this.quickButtons,
         },
     });
 };
