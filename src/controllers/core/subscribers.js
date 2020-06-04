@@ -15,6 +15,16 @@ module.exports.read = async () => {
     return await Subscriber.find({});
 };
 
+module.exports.find = async (id, callback) => {
+    Subscriber.findOne({ id: id }, (err, doc) => {
+        if (err) {
+            console.log("___find subcribers error");
+            callback(null);
+        }
+        callback(doc);
+    });
+};
+
 module.exports.delete = async (id) => {
     Subscriber.deleteMany({ id: id }, (err) => {
         if (err) {

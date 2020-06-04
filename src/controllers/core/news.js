@@ -16,7 +16,7 @@ module.exports.create = async (title, image_url, url) => {
     await news.save({});
 };
 
-module.exports.delete = async () => {
+module.exports.delete = () => {
     News.deleteMany({}, (err) => {
         if (err) {
             console.log("___delete news error", err);
@@ -54,7 +54,6 @@ var getRawData = () => {
 exports.getRawData = getRawData;
 
 /**
- *
  * @param {*} data : html_data
  * @param {*} type : string ["latest", "all"]
  */

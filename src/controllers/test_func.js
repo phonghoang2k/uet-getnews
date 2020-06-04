@@ -34,18 +34,16 @@ module.exports.verify = async (req, res, next) => {
     // news.create(a.title, a.url, a.url);
     // subscribers.delete("18020998")
 
-    var a = await subscribers.read();
-    console.log(a);
+    // var a = await subscribers.read();
+    // console.log(a);
     // await facebook.sendMultipleNews(b, "3294845787206281");
     // facebook.sendNewsThumbnail(a, "3294845787206281");
     // facebook.sendNewsDescription(a, "3294845787206281");
 
     // subscribers.create("180230998", "Phong", "Phong");
 
-    handleSuccess(res, "", "Doneeee");
-
     // var a = await news.delete();
-    // handleSuccess(res, a);
+    handleSuccess(res, a);
 };
 
 module.exports.postData = async (req, res, next) => {
