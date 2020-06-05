@@ -1,5 +1,3 @@
-const https = require("https");
-
 const subscribers = require("./core/subscribers");
 const config = require("../../custom/config");
 const language = require("../../custom/language");
@@ -14,7 +12,7 @@ async function broadcast(messageData) {
                 facebook.sendNewsThumbnail(messageData, element.id);
                 facebook.sendNewsDescription(messageData, element.id);
             }, 500);
-        });
+        }); 
     }
 }
 
@@ -36,7 +34,7 @@ exports.autoUpdateNews = () => {
 };
 
 exports.processEvent = (event) => {
-    console.log(event);
+    // console.log(event);
     if (event.read) {
         event.message = {
             text: "",
@@ -103,7 +101,7 @@ exports.processEvent = (event) => {
             } else if (command === language.KEYWORD_SUBSCRIBE) {
                 if (data) {
                     facebook.sendFacebookAPI(sender, {
-                        text: "Bạn đã đăng ký từ trước đó",
+                        text: language.HAVE_SUBSCRIBED,
                     });
                 } else {
                     facebook.getUserData(
@@ -117,7 +115,7 @@ exports.processEvent = (event) => {
                                     data.last_name
                                 );
                                 facebook.sendFacebookAPI(sender, {
-                                    text: "Bạn đã đăng ký thành công",
+                                    text: language.SUCCESS_SUBSCRIBED,
                                 });
                             }
                         }
@@ -130,11 +128,11 @@ exports.processEvent = (event) => {
                 if (data) {
                     subscribers.delete(sender);
                     facebook.sendFacebookAPI(sender, {
-                        text: "Bạn đã hủy đăng ký thành công",
+                        text: language.HAVE_UNSUBSCRIBED,
                     });
                 } else {
                     facebook.sendFacebookAPI(sender, {
-                        text: "Bạn không thể hủy khi chưa đăng ký",
+                        text: language.SUCCESS_UNSUBSCRIBED,
                     });
                 }
                 setTimeout(() => {

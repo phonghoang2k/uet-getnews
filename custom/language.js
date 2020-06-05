@@ -7,6 +7,9 @@ module.exports = {
     KEYWORD_ALL: "all",
 
     HAVE_SUBSCRIBED: "Bạn đã đăng ký từ trước đó",
+    SUCCESS_SUBSCRIBED: "Bạn đã đăng ký thành công",
+    HAVE_UNSUBSCRIBED: "Bạn đã hủy đăng ký thành công",
+    SUCCESS_UNSUBSCRIBED: "Bạn không thể hủy khi chưa đăng ký",
 
     KEYWORD_MENU: "menu",
     KEYWORD_SUBSCRIBE: "subcribe",
