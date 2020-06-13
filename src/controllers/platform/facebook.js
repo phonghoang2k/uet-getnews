@@ -179,8 +179,7 @@ var sendFacebookAPI = (receiver, messageData) => {
             data: {
                 recipient: { id: receiver },
                 message: messageData,
-                messaging_type: "MESSAGE_TAG",
-                tag: "CONFIRMED_EVENT_UPDATE",
+                messaging_type: "RESPONSE",
             },
         })
             .then((response) => {
@@ -237,7 +236,7 @@ exports.sendMultipleNews = (messageData, receiver) => {
                 image_aspect_ratio: "square",
                 elements: messageData,
             },
-            quick_replies: this.quickButtons,
         },
+        quick_replies: this.quickButtons,
     });
 };
