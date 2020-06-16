@@ -47,7 +47,7 @@ app.use(cors());
 
 app.use("/webhook", route);
 
-// auto update after 10 min
+// auto update after 5 min
 utils.autoUpdateNews();
 
 // catch 404 and forward to error handler

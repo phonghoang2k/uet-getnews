@@ -9,10 +9,10 @@ async function broadcast(messageData) {
     if (subscribers_data) {
         subscribers_data.forEach((element, i) => {
             setTimeout(() => {
-                facebook.sendNewsThumbnail(messageData, element.id);
-                facebook.sendNewsDescription(messageData, element.id);
+                facebook.sendNewsThumbnail(messageData, element.id, true);
+                facebook.sendNewsDescription(messageData, element.id, true);
             }, 500);
-        }); 
+        });
     }
 }
 
@@ -20,6 +20,19 @@ exports.autoUpdateNews = () => {
     setInterval(async () => {
         let latest_news = await news.getStarted();
         let current_news = await news.read();
+
+        if (current_news == null) {
+            await news.create(
+                latest_news.title,
+                latest_news.image_url,
+                latest_news.url
+            );
+            return;
+        }
+
+        if (latest_news == null) {
+            return;
+        }
 
         if (latest_news.url !== current_news.url) {
             broadcast(latest_news);
@@ -30,7 +43,7 @@ exports.autoUpdateNews = () => {
                 latest_news.url
             );
         }
-    }, 600000);
+    }, 300000);
 };
 
 exports.processEvent = (event) => {
@@ -99,6 +112,7 @@ exports.processEvent = (event) => {
                 );
                 facebook.sendMultipleNews(eight_news, sender);
             } else if (command === language.KEYWORD_SUBSCRIBE) {
+                console.log(data);
                 if (data) {
                     facebook.sendFacebookAPI(sender, {
                         text: language.HAVE_SUBSCRIBED,
@@ -107,12 +121,12 @@ exports.processEvent = (event) => {
                     facebook.getUserData(
                         config.FB_PAGE_ACCESS_TOKEN,
                         sender,
-                        (data) => {
-                            if (data) {
+                        (data2) => {
+                            if (data2) {
                                 subscribers.create(
                                     sender,
-                                    data.first_name,
-                                    data.last_name
+                                    data2.first_name,
+                                    data2.last_name
                                 );
                                 facebook.sendFacebookAPI(sender, {
                                     text: language.SUCCESS_SUBSCRIBED,

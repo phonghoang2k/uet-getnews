@@ -24,7 +24,7 @@ exports.getUserData = (accessToken, userId, callback) => {
                 callback(data);
             } catch (e) {
                 callback({ error: true });
-            }
+            } 
         });
     });
     request.on("error", (e) => {
@@ -194,37 +194,101 @@ var sendFacebookAPI = (receiver, messageData) => {
     }
 };
 
-exports.sendFacebookAPI = sendFacebookAPI;
-
-exports.sendNewsThumbnail = async (messageData, receiver) => {
-    sendFacebookAPI(receiver, {
-        attachment: {
-            type: "image",
-            payload: {
-                url: messageData.image_url,
+var sendFacebookAPIOutOf24HoursLimit = (receiver, messageData) => {
+    if (messageData.text || messageData.attachment) {
+        axios({
+            url: "https://graph.facebook.com/v7.0/me/messages",
+            params: { access_token: config.FB_PAGE_ACCESS_TOKEN },
+            method: "POST",
+            data: {
+                recipient: { id: receiver },
+                message: messageData,
+                messaging_type: "MESSAGE_TAG",
+                tag: "POST_PURCHASE_UPDATE",
             },
-        },
-        quick_replies: this.quickButtons,
-    });
+        })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log("Error sending messages: ", error);
+            });
+    } else {
+        console.log("__sendMessage: err: neither text nor attachment");
+        console.log(messageData);
+    }
 };
 
-exports.sendNewsDescription = async (messageData, receiver) => {
-    sendFacebookAPI(receiver, {
-        attachment: {
-            type: "template",
-            payload: {
-                template_type: "button",
-                text: messageData.title,
-                buttons: [
-                    {
-                        type: "web_url",
-                        title: "Xem chi tiết",
-                        url: messageData.url,
-                    },
-                ],
+exports.sendFacebookAPI = sendFacebookAPI;
+
+exports.sendNewsThumbnail = async (
+    messageData,
+    receiver,
+    isOutOf24hrsLimit = false
+) => {
+    if (!isOutOf24hrsLimit) {
+        sendFacebookAPI(receiver, {
+            attachment: {
+                type: "image",
+                payload: {
+                    url: messageData.image_url,
+                },
             },
-        },
-    });
+            quick_replies: this.quickButtons,
+        });
+    } else {
+        sendFacebookAPIOutOf24HoursLimit(receiver, {
+            attachment: {
+                type: "image",
+                payload: {
+                    url: messageData.image_url,
+                },
+            },
+            quick_replies: this.quickButtons,
+        });
+    }
+};
+
+exports.sendNewsDescription = async (
+    messageData,
+    receiver,
+    isOutOf24hrsLimit = false
+) => {
+    if (!isOutOf24hrsLimit) {
+        sendFacebookAPI(receiver, {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: messageData.title,
+                    buttons: [
+                        {
+                            type: "web_url",
+                            title: "Xem chi tiết",
+                            url: messageData.url,
+                        },
+                    ],
+                },
+            },
+        });
+    } else {
+        sendFacebookAPIOutOf24HoursLimit(receiver, {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: messageData.title,
+                    buttons: [
+                        {
+                            type: "web_url",
+                            title: "Xem chi tiết",
+                            url: messageData.url,
+                        },
+                    ],
+                },
+            },
+        });
+    }
 };
 
 exports.sendMultipleNews = (messageData, receiver) => {
