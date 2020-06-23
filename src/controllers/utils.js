@@ -11,7 +11,7 @@ async function broadcast(messageData) {
       setTimeout(() => {
         facebook.sendNewsThumbnail(messageData, element.id, true);
         facebook.sendNewsDescription(messageData, element.id, true);
-      }, 700);
+      }, 1000);
     });
   }
 }
@@ -39,7 +39,7 @@ exports.autoUpdateNews = () => {
       news.delete();
       news.create(latest_news.title, latest_news.image_url, latest_news.url);
     }
-  }, 300000);
+  }, 500000);
 };
 
 exports.processEvent = (event) => {

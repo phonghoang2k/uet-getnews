@@ -1,6 +1,6 @@
 module.exports = {
   FIRST_COME:
-    "Chào mừng bạn đến với UET - Get News.\n Với UET - Get News bạn có thể check tin sinh viên UET một cách nhanh chóng, nhận thông báo ngay khi có tin tức mới.\n Hãy cùng trải nghiệm nhé 😎",
+    "Chào mừng bạn đến với UET - Get News.\nVới UET - Get News bạn có thể check tin sinh viên UET một cách nhanh chóng, nhận thông báo ngay khi có tin tức mới.\nHãy cùng trải nghiệm nhé 😎",
   MENU: "MENU ⚡",
 
   KEYWORD_LATEST: "latest",
