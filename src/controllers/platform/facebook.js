@@ -24,7 +24,7 @@ exports.getUserData = (accessToken, userId, callback) => {
                 callback(data);
             } catch (e) {
                 callback({ error: true });
-            } 
+            }
         });
     });
     request.on("error", (e) => {
@@ -63,18 +63,18 @@ exports.setupFacebookAPI = (token) => {
 exports.sendSubscribeButtons = (
     sender,
     text,
-    showSubcribe = true,
-    showUnsubcribe = true
+    showSubscribe = true,
+    showUnsubscribed = true
 ) => {
     var buttons = [];
-    if (showSubcribe) {
+    if (showSubscribe) {
         buttons.push({
             type: "postback",
             title: "Đăng ký",
             payload: language.KEYWORD_SUBSCRIBE,
         });
     }
-    if (showUnsubcribe) {
+    if (showUnsubscribed) {
         buttons.push({
             type: "postback",
             title: "Hủy đăng ký",
@@ -104,7 +104,7 @@ exports.sendMessageButtons = (
     text,
     showLatestNews,
     showListLatestNews,
-    showSubcribeChannel,
+    showSubscribeChannel,
     showReportButton = false
 ) => {
     var buttons = [];
@@ -132,7 +132,7 @@ exports.sendMessageButtons = (
             title: "Gửi phản hồi",
             url: config.REPORT_LINK,
         });
-    if (showSubcribeChannel)
+    if (showSubscribeChannel)
         buttons.push({
             type: "postback",
             title: "Đăng ký nhận tin",

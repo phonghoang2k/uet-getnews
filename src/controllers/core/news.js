@@ -33,7 +33,7 @@ module.exports.getStarted = async () => {
 };
 
 var getRawData = () => {
-    return new Promise((resovle, reject) => {
+    return new Promise((resolve, reject) => {
         let buff = "";
         https
             .get(url, (response) => {
@@ -42,7 +42,7 @@ var getRawData = () => {
                 });
                 response.on("end", () => {
                     console.log("Saved Raw Data!");
-                    resovle(buff);
+                    resolve(buff);
                 });
             })
             .on("error", () => {
@@ -58,7 +58,7 @@ exports.getRawData = getRawData;
  * @param {*} type : string ["latest", "all"]
  */
 var getNews = (data, type) => {
-    return new Promise((resovle, reject) => {
+    return new Promise((resolve, reject) => {
         let arr = [];
         let m;
         while ((m = regex.exec(data)) !== null) {
@@ -99,7 +99,7 @@ var getNews = (data, type) => {
                 }
             });
         }
-        resovle(arr);
+        resolve(arr);
     });
 };
 

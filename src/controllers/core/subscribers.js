@@ -18,7 +18,7 @@ module.exports.read = async () => {
 module.exports.find = async (id, callback) => {
     Subscriber.findOne({ id: id }, (err, doc) => {
         if (err) {
-            console.log("___find subcribers error");
+            console.log("___find subscribers error");
             callback(null);
         }
         callback(doc);
